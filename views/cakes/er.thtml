@@ -1,0 +1,233 @@
+<script type="text/javascript">
+/**
+ * recursive.js
+ *
+ */
+var recursive = 1;
+var selectModel = null;
+$(function(){
+
+      setColor(recursive);
+
+      $('.model').click(function(){
+                            $('div.model').css({
+                                                   display:'none',
+                                                   border:'1px solid #ccc'
+                                               });
+                            selectModel = this;
+                            findAssoc(this,recursive);
+                        });
+      $('div#reset').click(function(){
+                               $('div.model').css({
+                                                      display:'block',
+                                                      border:'1px solid #ccc'
+                                                  });
+                           });
+
+      $('#recursive li').click(function(){
+                                   recursive = parseInt($(this).text());
+                                   setColor(recursive);
+                                   if (selectModel) {
+                            $('div.model').css({
+                                                   display:'none',
+                                                   border:'1px solid #ccc'
+                                               });
+                                       findAssoc(selectModel,recursive);
+                                   }
+                               });
+  });
+
+function setColor(rec) {
+    //console.log(rec);
+    $('#recursive li').css({backgroundColor:"#f4f4f4"});
+    $('#recursive li').eq(rec + 1).css({backgroundColor:"#EF3021"});
+}
+
+function findAssoc(elm,rec) {
+
+    var color = ["#EF3021","#003C4B","#CECF63"];
+
+    if (rec < 0) {
+        if (recursive == -1) {
+        $(elm).css({
+                       display:'block',
+                       border:'2px solid ' + color[0]
+                   });
+        }
+        return false;
+    }
+
+    if ($(elm).css('border').match(/1px/) == '1px') {
+        $(elm).css({
+                       display:'block',
+                       border:'2px solid ' + color[recursive - rec]
+                   });
+    }
+
+    switch(recursive) {
+    case -1:
+        break;
+    case 0:
+        switch (rec) {
+        case 0:
+            rec--;
+            belongsTo();
+            hasOne();
+            break;
+        }
+        break;
+    case 1:
+        switch (rec) {
+        case 0:
+            break;
+        case 1:
+            rec--;
+            belongsTo();
+            hasOne();
+            hasMany();
+            hasAndBelongsToMany();
+            break;
+        }
+        break;
+    case 2:
+        switch (rec) {
+        case 0:
+            break;
+        case 1:
+            rec--;
+            belongsTo();
+            hasOne();
+            hasMany();
+            hasAndBelongsToMany();
+            break;
+        case 2:
+            rec--;
+            belongsTo();
+            hasOne();
+            hasMany();
+            hasAndBelongsToMany();
+            break;
+        }
+        break;
+    }
+
+    function belongsTo() {
+        $(elm).find('tr.belongsTo').each(function(){
+                                             var className = $.trim($(this).find('td.className').text());
+                                             if (className != $(elm).attr('id')) {
+                                                 $('div#' + className).css({display:'block'});
+                                                 findAssoc($('div#' + className),rec);
+                                             }
+                                         });
+    }
+
+    function hasOne() {
+        $(elm).find('tr.hasOne').each(function(){
+                                          var className = $.trim($(this).find('td.className').text());
+                                          if (className != $(elm).attr('id')) {
+                                              $('div#' + className).css({display:'block'});
+                                              findAssoc($('div#' + className),rec);
+                                          }
+                                      });
+    }
+
+    function hasMany() {
+        $(elm).find('tr.hasMany').each(function(){
+                                           var className = $.trim($(this).find('td.className').text());
+                                           if (className != $(elm).attr('id')) {
+                                               $('div#' + className).css({display:'block'});
+                                               findAssoc($('div#' + className),rec);
+                                           }
+                                       });
+    }
+
+    function hasAndBelongsToMany() {
+        $(elm).find('tr.hasAndBelongsToMany').each(function(){
+                                                       var className = $.trim($(this).find('td.className').text());
+                                                       if (className != $(elm).attr('id')) {
+                                                           $('div#' + className).css({display:'block'});
+                                                           findAssoc($('div#' + className),rec);
+                                                       }
+                                                   });
+    }
+
+
+    return true;
+
+}
+</script>
+<div id="reset">[<?php __('Reset'); ?>]</div>
+<div id="recursive">
+    <ul>
+        <li>-1</li>
+        <li>0</li>
+        <li>1</li>
+        <li>2</li>
+    </ul>
+</div>
+<?php foreach ($models as $m => $model):?>
+<div class="model" id="<?php echo $model['className']; ?>">
+<table>
+    <tr>
+        <th colspan="2"><?php echo $model['className']; ?></th>
+    </tr>
+    <?php foreach ($model['_schema'] as $s => $field): ?>
+    <tr>
+        <td><?php echo $s; ?></td>
+        <td><?php echo $field['type']; ?></td>
+    </tr>
+    <?php endforeach; ?>
+</table>
+<table class="assocs">
+
+    <?php if (!empty($model['belongsTo'])): ?>
+    <tr>
+        <th colspan="2">belongsTo</th>
+    </tr>
+    <?php foreach ($model['belongsTo'] as $b => $belongsTo): ?>
+    <tr class="assoc belongsTo">
+        <td class="className"><?php echo $belongsTo['className']; ;?></td>
+        <td class="foreignKey"><?php echo $belongsTo['foreignKey']; ;?></td>
+    </tr>
+    <?php endforeach; ?>
+    <?php endif; ?>
+
+    <?php if (!empty($model['hasMany'])): ?>
+    <tr>
+        <th colspan="2">hasMany</th>
+    </tr>
+    <?php foreach ($model['hasMany'] as $b => $hasMany): ?>
+    <tr class="assoc hasMany">        
+        <td class="className"><?php echo $hasMany['className']; ;?></td>
+        <td class="foreignKey"><?php echo $hasMany['foreignKey']; ;?></td>
+    </tr>
+    <?php endforeach; ?>
+    <?php endif; ?>
+
+    <?php if (!empty($model['hasOne'])): ?>
+    <tr>
+        <th colspan="2">hasOne</th>
+    </tr>
+    <?php foreach ($model['hasOne'] as $b => $hasOne): ?>
+    <tr class="assoc hasOne">        
+        <td class="className"><?php echo $hasOne['className']; ;?></td>
+        <td class="foreignKey"><?php echo $hasOne['foreignKey']; ;?></td>
+    </tr>
+    <?php endforeach; ?>
+    <?php endif; ?>
+
+    <?php if (!empty($model['hasAndBelongsToMany'])): ?>
+    <tr>
+        <th colspan="2">hasAndBelongsToMany</th>
+    </tr>
+    <?php foreach ($model['hasAndBelongsToMany'] as $b => $hasAndBelongsToMany): ?>
+    <tr class="assoc hasAndBelongsToMany">        
+        <td class="className"><?php echo $hasAndBelongsToMany['className']; ;?></td>
+        <td class="foreignKey"><?php echo $hasAndBelongsToMany['foreignKey']; ;?></td>
+    </tr>
+    <?php endforeach; ?>
+    <?php endif; ?>
+
+</table>
+</div>
+<?php endforeach; ?>
