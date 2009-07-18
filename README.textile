@@ -1,0 +1,14 @@
+h1. CakePHP DB Schema/Model Info Plugin
+
+This Plugin generate datadase schema infomation and CakePHP Model infomation.
+
+h2. Features
+
+* generate database schema infomation page.
+* generate CakePHP Model infomation page.
+
+h2. Usage
+
+# git clone git://github.com/k1LoW/model_info.git
+# set model_info files into app/plugins dirctory.
+# see /model_info/schemas/er and /model_info/cakes/er on browser.
