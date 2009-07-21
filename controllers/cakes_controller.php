@@ -57,7 +57,7 @@ class CakesController extends ModelInfoAppController{
         $file = fopen(TMP . 'cache/model.dot','w');
         fwrite($file, $dot);
         fclose($file);
-        system('dot -Tpng ' . TMP . 'cache/model.dot -o ' . TMP . 'cache/model.png');
+        system('dot -Kdot -Tpng ' . TMP . 'cache/model.dot -o ' . TMP . 'cache/model.png');
         rename(TMP . 'cache/model.png' , APP . 'webroot/file/model.png');
     }
 
