@@ -1,4 +1,9 @@
 <?php echo $javascript->link('../model_info/js/recursive.js'); ?>
+<div class="actions">
+    <ul>
+        <li><?php echo $html->link(__('Back',true), array('controller' => 'model_info', 'action' => 'index')); ?></li>
+    </ul>
+</div>
 <div id="reset"><?php __('Reset'); ?></div>
 <div id="recursive">
     <ul>

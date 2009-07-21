@@ -1,3 +1,8 @@
+<div class="actions">
+    <ul>
+        <li><?php echo $html->link(__('Back',true), array('controller' => 'model_info', 'action' => 'index')); ?></li>
+    </ul>
+</div>
 <div>
     <?php foreach ($tables as $t => $table): ?>
     <div class="table">
