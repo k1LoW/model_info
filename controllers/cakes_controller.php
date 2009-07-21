@@ -8,24 +8,12 @@ class CakesController extends ModelInfoAppController{
 
     /**
      * index
-     * description
-     *
-     * @params
-     * @return
-     */
-    function index(){
-        $actions = $this->Parse->getControllerAndAction();
-        $models = $this->Parse->getModel();
-    }
-
-    /**
-     * er
      * CakePHP Model ER
      *
      * @params
      * @return
      */
-    function er(){
+    function index(){
         $models = $this->Parse->getModel();
         $this->set('models', $models);
     }
@@ -47,7 +35,7 @@ class CakesController extends ModelInfoAppController{
 
     /**
      * generate
-     * 
+     *
      *
      * @param
      * @return

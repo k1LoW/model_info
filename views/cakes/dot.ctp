@@ -5,7 +5,7 @@ node<?php echo $model['className']; ?>
 [label="{<table><?php echo $model['className']; ?>
 |<cols><?php $first = true;?>
 <?php foreach ($model['_schema'] as $f => $field): ?>
-<?php echo (!$first) ? "\l" : ''; ?><?php echo $f;?> (<?php echo $field['type']; ?>)<?php $first = false; ?>
+<?php echo (!$first) ? "\l" : ''; ?><?php echo $f;?> : <?php echo $field['type']; ?><?php $first = false; ?>
 <?php endforeach; ?>\l}", 
 shape=Mrecord];
 
