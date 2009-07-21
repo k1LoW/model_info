@@ -11,4 +11,4 @@ h2. Usage
 
 # git clone git://github.com/k1LoW/model_info.git
 # set model_info files into app/plugins/model_info dirctory.
-# see /model_info/schemas/er and /model_info/cakes/er on browser.
+# goto http://yourapp/model_info/
