@@ -1,5 +1,13 @@
 <?php
-
+  /**
+   * CakePHP DB Schema / Model Info Plugin
+   * Copyright (c) 2009 101000code/101000LAB
+   * http://code.101000lab.org/
+   * http://github.com/k1LoW/model_info
+   * @author Kenichirou Oyama <k1lowxb@gmail.com>
+   * @license MIT
+   *
+   */
 class CakesController extends ModelInfoAppController{
     var $name = 'Cakes';
     var $uses = false;
@@ -20,7 +28,7 @@ class CakesController extends ModelInfoAppController{
 
     /**
      * dot
-     * dot
+     * generate dot file
      *
      * @param
      * @return
@@ -29,13 +37,12 @@ class CakesController extends ModelInfoAppController{
         Configure::write('debug',0);
         $this->layout = false;
         $models = $this->Parse->getModel();
-        //print_a($models);
         $this->set('models', $models);
     }
 
     /**
      * generate
-     *
+     * generate png file
      *
      * @param
      * @return
@@ -45,8 +52,11 @@ class CakesController extends ModelInfoAppController{
         $file = fopen(TMP . 'cache/model.dot','w');
         fwrite($file, $dot);
         fclose($file);
-        system('dot -Kdot -Tpng ' . TMP . 'cache/model.dot -o ' . TMP . 'cache/model.png');
-        rename(TMP . 'cache/model.png' , APP . 'webroot/file/model.png');
+        if (system('dot -Kdot -Tpng ' . TMP . 'cache/model.dot -o ' . TMP . 'cache/model.png') === false) {
+            $this->Session->setFlash(__('Invalid generate. Please install Graphviz.', true));
+        } else {
+            rename(TMP . 'cache/model.png' , APP . 'webroot/file/model.png');
+        }
     }
 
   }
