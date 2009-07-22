@@ -41,6 +41,53 @@ class CakesController extends ModelInfoAppController{
     }
 
     /**
+     * _dot
+     * generate dot file
+     *
+     * @param
+     * @return
+     */
+    function _dot(){
+        Configure::write('debug',0);
+        $this->autoRender = false;
+        $models = $this->Parse->getModel();
+        $dot = "graph G {
+node [fontsize=12]";
+        foreach ($models as $key => $model) {
+            $dot .= "node" . $model['className'];
+            $dot .= "[label=\"{<table>" . $model['className'];
+            $dot .= "|<cols>";
+            $first = true;
+            foreach ($model['_schema'] as $f => $field) {
+                $dot .= (!$first) ? "\l" : '';
+                $dot .= $f . " : " . $field['type'];
+                $first = false;
+            }
+            $dot .= "\l}\", shape=Mrecord];";
+
+            if (!empty($model['belongsTo'])) {
+                foreach ($model['belongsTo'] as $m => $mm){
+                    $dot .= "node" . $model['className'] . " -- " . "node" . $mm['className'] . " [taillabel=\"" . $mm['foreignKey'] . "\", label=\"[belongsTo]\", arrowtail=crow, fontsize=10, color=\"#CECF63\"];";
+                }
+            }
+
+            if (!empty($model['hasMany'])) {
+                foreach ($model['hasMany'] as $m => $mm) {
+                    $dot .= "node" . $model['className'] . " -- " . "node" . $mm['className'] . " [headlabel=\"" . $mm['foreignKey'] . "\", label=\"[hasMany]\", arrowhead=crow, fontsize=10, color=\"#EF3021\"];";
+                }
+            }
+
+            if (!empty($model['hasAndBelongsToMany'])) {
+                foreach ($model['hasAndBelongsToMany'] as $m => $mm) {
+                    $dot .= "node" . $model['className'] . " -- " . "node" . $mm['className'] . " [label=\"[hasAndBelongsToMany]\", arrowhead=crow, arrowtail=crow, fontsize=10, color=\"#003D4C\"]";
+                }
+            }
+
+        }
+        return $dot;
+    }
+
+    /**
      * generate
      * generate png file
      *
@@ -48,15 +95,27 @@ class CakesController extends ModelInfoAppController{
      * @return
      */
     function generate(){
-        $dot = $this->requestAction('/model_info/cakes/dot',array('return'));
+        //$dot = $this->requestAction('/model_info/cakes/dot',array('return'));
+        $dot = $this->_dot();
+        $this->autoRender = true;
         $file = fopen(TMP . 'cache/model.dot','w');
         fwrite($file, $dot);
         fclose($file);
         if (system('dot -Kdot -Tpng ' . TMP . 'cache/model.dot -o ' . TMP . 'cache/model.png') === false) {
             $this->Session->setFlash(__('Invalid generate. Please install Graphviz.', true));
-        } else {
-            rename(TMP . 'cache/model.png' , APP . 'webroot/file/model.png');
         }
+    }
+
+    /**
+     * image
+     * image
+     *
+     * @param
+     * @return
+     */
+    function image(){
+        header("Content-type: image/png");
+        readfile(TMP . 'cache/model.png' );
     }
 
   }

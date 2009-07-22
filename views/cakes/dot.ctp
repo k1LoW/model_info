@@ -28,6 +28,4 @@ node<?php echo $model['className']; ?> -- node<?php echo $mm['className']; ?> [l
 <?php endif; ?>
 
 <?php endforeach; ?>
-
-
 }

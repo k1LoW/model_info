@@ -19,7 +19,9 @@ class ModelInfoAppController extends AppController {
      */
     function beforeFilter(){
         //for AuthComponent
-        //$this->Auth->allow('*');
+        if (isset($this->Auth)) {
+            $this->Auth->allow('*');
+        }
     }
 
   }

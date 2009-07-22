@@ -4,4 +4,4 @@
         <li><?php echo $html->link(__('Model Info',true), array('controller' => 'cakes', 'action' => 'index')); ?></li>
     </ul>
 </div>
-<?php echo $html->image('../file/model.png'); ?>
+<?php echo $html->image(array('action' => 'image')); ?>
