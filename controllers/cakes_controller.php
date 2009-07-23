@@ -36,8 +36,12 @@ class CakesController extends ModelInfoAppController{
     function dot(){
         Configure::write('debug',0);
         $this->layout = false;
+        $this->autoRender = false;
         $models = $this->Parse->getModel();
         $this->set('models', $models);
+        header ("Content-disposition: attachment; filename = model_info.dot");
+        header ("Content-type: text/plain; name = model_info.dot");
+        $this->render();
     }
 
     /**

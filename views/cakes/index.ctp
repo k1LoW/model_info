@@ -2,7 +2,8 @@
 <div class="actions">
     <ul>
         <li><?php echo $html->link(__('Back',true), array('controller' => 'model_info', 'action' => 'index')); ?></li>
-        <li><?php echo $html->link(__('ER',true), array('controller' => 'cakes', 'action' => 'generate')); ?></li>
+        <li><?php echo $html->link(__('Download Dot File',true), array('controller' => 'cakes', 'action' => 'dot')); ?></li>
+        <li><?php echo $html->link(__('Generate Model Info Diagram',true), array('controller' => 'cakes', 'action' => 'generate')); ?></li>
     </ul>
 </div>
 <div id="reset"><?php __('Reset'); ?></div>
