@@ -65,6 +65,7 @@ node [fontsize=12]";
             foreach ($model['_schema'] as $f => $field) {
                 $dot .= (!$first) ? "\l" : '';
                 $dot .= $f . " : " . $field['type'];
+                $dot .= (isset($field['key'])) ? ' [' . $field['key'] . ']': '';
                 $first = false;
             }
             $dot .= "\l}\", shape=Mrecord];";
