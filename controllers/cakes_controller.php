@@ -55,8 +55,7 @@ class CakesController extends ModelInfoAppController{
         Configure::write('debug',0);
         $this->autoRender = false;
         $models = $this->Parse->getModel();
-        $dot = "graph G {
-node [fontsize=12]";
+        $dot = "graph G { node [fontsize=12]";
         foreach ($models as $key => $model) {
             $dot .= "node" . $model['className'];
             $dot .= "[label=\"{<table>" . $model['className'];
