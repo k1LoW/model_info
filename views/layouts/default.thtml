@@ -110,7 +110,7 @@ color:#2B6776;
         </div>
         <div id="content">
 
-            <?php $session->flash(); ?>
+            <?php echo $session->flash(); ?>
 
             <?php echo $content_for_layout; ?>
 
