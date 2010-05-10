@@ -1,0 +1,86 @@
+* {
+    margin:0;
+    padding:0;
+}
+
+/* General Style Info */
+body {
+    background: #fff;
+    font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
+    font-size:12px;
+    margin: 0;
+}
+
+table {
+    border-collapse: collapse;
+    background: #fff;
+    border:1px solid #ccc;
+    width:90%;
+    margin:10px auto;
+}
+
+tr {
+    border:1px solid #ccc;
+}
+
+th {
+    padding:2px
+    border:1px solid #ccc;
+    background: #f4f4f4;
+}
+
+td {
+    padding:2px;
+    border:1px solid #ccc;
+}
+
+div#reset {
+    margin:5px 10px;
+    border:1px solid #ccc;
+    width: 50px;
+    height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+ }
+
+div#recursive{
+    padding:10px;
+    height:20px;
+ }
+
+#recursive li {
+    float: left;
+    border:1px solid #ccc;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    list-style-type: none;
+    cursor:pointer;
+ }
+
+div.model {
+    float: left;
+    width: 250px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+div.table {
+    float: left;
+    width: 250px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.assocs th {
+font-weight:100;
+color:#2B6776;
+}
+
+#footer{
+    clear:both;
+}
