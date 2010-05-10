@@ -105,8 +105,10 @@ class CakesController extends ModelInfoAppController{
         $file = fopen(TMP . 'cache/model.dot','w');
         fwrite($file, $dot);
         fclose($file);
-        if (system('dot -Kdot -Tpng ' . TMP . 'cache/model.dot -o ' . TMP . 'cache/model.png') === false) {
+        switch(system('dot -Kdot -Tpng ' . TMP . 'cache/model.dot -o ' . TMP . 'cache/model.png')) {
+          case FALSE:
             $this->Session->setFlash(__('Invalid generate. Please install Graphviz.', true));
+          break;
         }
     }
 
