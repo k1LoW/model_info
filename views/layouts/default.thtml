@@ -124,6 +124,5 @@ color:#2B6776;
             ?>
         </div>
     </div>
-    <?php echo $cakeDebug; ?>
 </body>
 </html>
